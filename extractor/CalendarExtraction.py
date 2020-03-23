@@ -1,16 +1,67 @@
-File: Conditionally required
+import csv
+import os
+import sys
+import xml.etree.ElementTree as et
 
-Field Name	Type	Required	Description
-service_id	ID	Required	Uniquely identifies a set of dates when service is available for one or more routes. Each service_id value can appear at most once in a calendar.txt file.
-monday	Enum	Required	Indicates whether the service operates on all Mondays in the date range specified by the start_date and end_date fields. Note that exceptions for particular dates may be listed in calendar_dates.txt. Valid options are:
+from models.CalendarModel import Calendar
 
-1 - Service is available for all Mondays in the date range.
-0 - Service is not available for Mondays in the date range.
-tuesday	Enum	Required	Functions in the same way as monday except applies to Tuesdays
-wednesday	Enum	Required	Functions in the same way as monday except applies to Wednesdays
-thursday	Enum	Required	Functions in the same way as monday except applies to Thursdays
-friday	Enum	Required	Functions in the same way as monday except applies to Fridays
-saturday	Enum	Required	Functions in the same way as monday except applies to Saturdays.
-sunday	Enum	Required	Functions in the same way as monday except applies to Sundays.
-start_date	Date	Required	Start service day for the service interval.
-end_date	Date	Required	End service day for the service interval. This service day is included in the interval.
+class CalendarExtraction:
+  PRINT_PROGRESS_INTERVAL = 0.1
+  TXC_NAMESPACES = {'txc': 'http://www.transxchange.org.uk/'}
+
+  inputfiles = os.listdir('input')
+  totalfiles = len(inputfiles)          # This states how many input files there \are in the input folder
+  progress = 0.0
+  calendars = set()
+
+  def extract(self):
+    print("Extracting calendars from input folder")
+    self.__extractcalendars()
+    self.__writegtfscalendars()
+    print(".")
+
+  def __extractcalendars(self):
+    sys.stdout.write('- Reading TXC Operators to GTFS calendars in memory')
+    sys.stdout.flush()
+    for index, file in enumerate(self.inputfiles):            # Iter the input files
+      self.__printprogress(index)
+      if file.endswith('.xml'):
+        self.__process(file)
+    print (".")
+
+  def __printprogress(self, currentindex):
+    if(currentindex / float(self.totalfiles) > self.progress + self.PRINT_PROGRESS_INTERVAL):
+      sys.stdout.write('.')
+      sys.stdout.flush()
+      self.progress += 0.1
+
+  def __process(self, file):
+    for operator in self.__getdaysofweek(file):
+      self.calendars.add(self.__convertcalendars(calendar))
+
+  def __getdaysofweek(self, file):
+    root = et.parse('input/' + file).getroot()
+    return root.findall('txc:Service/txc:OperatigProfile/txc:RegularDayType/txc:DaysofWeek/txc:MondaytoSunday', self.TXC_NAMESPACES)
+
+  def __convertcalendars(self, calendar):
+    calendarname = calendar.find('txc:RegularDayType', self.TXC_NAMESPACES).text
+    service_id = calendar.attrib['id']
+    monday = ''
+    tuesday = ''
+    wednesday = ''
+    thursday = ''
+    friday = ''
+    saturday = ''
+    sunday = ''
+    start_date = ''
+    end_date = ''
+
+    return Calendar(service_id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+
+  def __writegtfscalendars(self):
+    print ("- Writing calendars.txt")
+    with open('output/calendar.txt', 'w') as csvfile:
+      csvwriter = csv.writer(csvfile, delimiter= ' ')
+      csvwriter.writerow(['service_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+      for calendar in self.calendars:
+        csvwriter.writerow(calendar.getgtfsvalues())

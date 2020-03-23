@@ -27,3 +27,8 @@ RouteSection
 						Northinh
 						Longitude
 						Latitude
+
+Services
+Service
+Lines
+Line Attrib LineName

@@ -25,3 +25,13 @@ StartDeadRun
 	PositioningLink
 	DepartureTime
 DepartureTime
+
+Services
+	Service
+	OperatingPeriod
+		StartDate
+		EndDate
+	OperatigProfile
+		RegularDayType
+			DaysofWeek
+				MondaytoSunday
