@@ -1,0 +1,27 @@
+VehicleJourneys
+VehicleJourney
+PrivateCode
+Direction
+Operational
+	Block
+		Description
+		BlockNumber
+	TicketMachine
+		JourneyCode
+OperatingProfile
+	RegularDayType
+		DaysofWeek
+			ModayToFriday
+	BankHolidayOperation
+		DaysOfNonOperation
+			HolidayMondays	
+GarageRef
+VehicleJourneyCode
+ServiceRef
+LineRef
+JourenyPatternReg
+StartDeadRun
+	id VJDR1
+	PositioningLink
+	DepartureTime
+DepartureTime

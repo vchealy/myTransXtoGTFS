@@ -1,0 +1,29 @@
+Routes
+Route
+	id
+	PrivateCode
+	Description
+	RouteSectionRef
+
+
+RouteSections
+RouteSection
+	id
+	RouteLink
+		id
+		From
+			StopPointRef
+
+		To
+			StopPointRef	
+		Distance
+		Direction
+		Track
+			Mapping	
+				Location
+					id
+					Translation
+						Easting
+						Northinh
+						Longitude
+						Latitude
