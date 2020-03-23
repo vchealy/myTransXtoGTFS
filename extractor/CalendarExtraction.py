@@ -21,7 +21,7 @@ class CalendarExtraction:
     print(".")
 
   def __extractcalendars(self):
-    sys.stdout.write('- Reading TXC Operators to GTFS calendars in memory')
+    sys.stdout.write('- Reading TXC Information to GTFS calendars in memory')
     sys.stdout.flush()
     for index, file in enumerate(self.inputfiles):            # Iter the input files
       self.__printprogress(index)
@@ -36,32 +36,23 @@ class CalendarExtraction:
       self.progress += 0.1
 
   def __process(self, file):
-    for operator in self.__getdaysofweek(file):
+    for calendar in self.__getdaysofweek(file):
       self.calendars.add(self.__convertcalendars(calendar))
 
   def __getdaysofweek(self, file):
     root = et.parse('input/' + file).getroot()
     return root.findall('txc:Service/txc:OperatigProfile/txc:RegularDayType/txc:DaysofWeek/txc:MondaytoSunday', self.TXC_NAMESPACES)
 
-  def __convertcalendars(self, calendar):
-    calendarname = calendar.find('txc:RegularDayType', self.TXC_NAMESPACES).text
-    service_id = calendar.attrib['id']
-    monday = ''
-    tuesday = ''
-    wednesday = ''
-    thursday = ''
-    friday = ''
-    saturday = ''
-    sunday = ''
-    start_date = ''
-    end_date = ''
-
-    return Calendar(service_id, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+  def __convertcalendars(self, calendars):
+    service_id = calendars.attrib['id']
+    start_date = calendars.find('txc:StartDate', self.TXC_NAMESPACES).text
+    end_date = calendars.find('txc:EndDate', self.TXC_NAMESPACES).text
+    return Calendar(service_id, start_date, end_date)
 
   def __writegtfscalendars(self):
     print ("- Writing calendars.txt")
     with open('output/calendar.txt', 'w') as csvfile:
       csvwriter = csv.writer(csvfile, delimiter= ' ')
-      csvwriter.writerow(['service_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])
+      csvwriter.writerow(['service_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'start_date', 'end_date'])
       for calendar in self.calendars:
         csvwriter.writerow(calendar.getgtfsvalues())

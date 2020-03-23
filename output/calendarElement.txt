@@ -1,0 +1,29 @@
+Services
+	Service
+	OperatingPeriod
+		StartDate
+		EndDate
+	OperatigProfile
+		RegularDayType
+			DaysofWeek
+				MondaytoSunday
+
+
+VehicleJourney
+OperatingProfile
+	RegularDayType
+		DaysofWeek
+			ModayToFriday
+	BankHolidayOperation
+		DaysOfNonOperation
+			HolidayMondays	
+
+JourneyPatternSection
+	JourneyPatternTimingLink
+		From
+			StopPointRef
+			TimingStatus
+			FareStageNumber
+		To
+			RouteLinkRef
+			RunTime
