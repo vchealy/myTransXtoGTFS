@@ -1,29 +1,64 @@
-Services
-	Service
-	OperatingPeriod
-		StartDate
-		EndDate
-	OperatigProfile
-		RegularDayType
-			DaysofWeek
-				MondaytoSunday
+<OperatingPeriod>
+        <StartDate>2018-06-24</StartDate>
+        <EndDate>2099-12-31</EndDate>
+      </OperatingPeriod>
 
-
-VehicleJourney
-OperatingProfile
-	RegularDayType
-		DaysofWeek
-			ModayToFriday
-	BankHolidayOperation
-		DaysOfNonOperation
-			HolidayMondays	
-
-JourneyPatternSection
-	JourneyPatternTimingLink
-		From
-			StopPointRef
-			TimingStatus
-			FareStageNumber
-		To
-			RouteLinkRef
-			RunTime
+<VehicleJourney>
+      <PrivateCode>J120</PrivateCode>
+      <Operational>
+        <VehicleType>
+          <VehicleTypeCode>COACH</VehicleTypeCode>
+          <Description>COACH</Description>
+        </VehicleType>
+      </Operational>
+      <OperatingProfile>
+        <RegularDayType>
+          <DaysOfWeek>
+            <Saturday />
+            <Sunday />
+          </DaysOfWeek>
+        </RegularDayType>
+      </OperatingProfile>
+      <VehicleJourneyCode>J120</VehicleJourneyCode>
+      <ServiceRef>M20_MEGA</ServiceRef>
+      <LineRef>l_M20_MEGA</LineRef>
+      <JourneyPatternRef>JP227</JourneyPatternRef>
+      <Note>
+        <NoteCode>MB1</NoteCode>
+        <NoteText>Book at megabus.com or 0900 1600900 (65p/min + network charges)</NoteText>
+      </Note>
+      <DepartureTime>16:30:00</DepartureTime>
+    </VehicleJourney>
+    <VehicleJourney>
+      <PrivateCode>2006</PrivateCode>
+      <Operational>
+        <VehicleType>
+          <VehicleTypeCode>COACH</VehicleTypeCode>
+          <Description>COACH</Description>
+        </VehicleType>
+      </Operational>
+      <OperatingProfile>
+        <RegularDayType>
+          <DaysOfWeek>
+            <MondayToSunday />
+          </DaysOfWeek>
+        </RegularDayType>
+        <SpecialDaysOperation>
+          <DaysOfNonOperation>
+            <DateRange>
+              <StartDate>2018-06-24</StartDate>
+              <EndDate>2018-12-25</EndDate>
+            </DateRange>
+          </DaysOfNonOperation>
+        </SpecialDaysOperation>
+      </OperatingProfile>
+      <VehicleJourneyCode>2006</VehicleJourneyCode>
+      <ServiceRef>M20_MEGA</ServiceRef>
+      <LineRef>l_M20_MEGA</LineRef>
+      <JourneyPatternRef>JP228</JourneyPatternRef>
+      <Note>
+        <NoteCode>MB1</NoteCode>
+        <NoteText>Book at megabus.com or 0900 1600900 (65p/min + network charges)</NoteText>
+      </Note>
+      <DepartureTime>22:30:00</DepartureTime>
+    </VehicleJourney>

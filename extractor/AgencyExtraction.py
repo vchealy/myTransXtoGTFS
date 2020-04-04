@@ -5,6 +5,9 @@ import xml.etree.ElementTree as et
 
 from models.AgencyModel import Agency
 
+
+# Using a MegaBus TransX as some elements change between OpCos
+# 
 class AgencyExtraction:
   PRINT_PROGRESS_INTERVAL = 0.1
   TXC_NAMESPACES = {'txc': 'http://www.transxchange.org.uk/'}
@@ -41,19 +44,20 @@ class AgencyExtraction:
 
   def __getoperators(self, file):
     root = et.parse('input/' + file).getroot()
-    return root.findall('txc:Operators/txc:LicensedOperator', self.TXC_NAMESPACES)
+    return root.findall('txc:Operators/txc:Operator', self.TXC_NAMESPACES)
 
   def __convertoperatortoagency(self, operator):
     agencyid = operator.attrib['id']
-    agencyname = operator.find('txc:OperatorNameOnLicence', self.TXC_NAMESPACES).text
-    agencyurl = 'https://www.google.com/#q=' + agencyname
+    agencyname = operator.find('txc:OperatorShortName', self.TXC_NAMESPACES).text
+    # agencycode = operator.find('txc:NationalOperatorCode', self.TXC_NAMESPACES).text
     agencytimezone = 'Europe/London'
-    return Agency(agencyid, agencyname, agencyurl, agencytimezone)
+    agencyurl = 'https://www.google.com/#q=' + agencyname
+    return Agency(agencyid, agencyname, agencytimezone, agencyurl)
 
   def __writegtfsagencies(self):
     print ("- Writing agencies.txt")
     with open('output/agency.txt', 'w') as csvfile:
-      csvwriter = csv.writer(csvfile, delimiter= ' ')
-      csvwriter.writerow(['agency_id', 'agency_name', 'agency_url', 'agency_timezone'])
+      csvwriter = csv.writer(csvfile, delimiter= '\t')
+      csvwriter.writerow(['agency_id', 'agency_name', 'agency_timezone', 'agency_URL'])
       for agency in self.agencies:
         csvwriter.writerow(agency.getgtfsvalues())

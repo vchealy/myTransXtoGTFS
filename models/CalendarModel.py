@@ -1,8 +1,8 @@
 class Calendar:
-  def __init__(self, id, name, url, timezone):
+  def __init__(self, id, start_date, end_date, timezone):
     self.id = id
-    self.name = name
-    self.url = url
+    self.start_date = start_date
+    self.end_date = end_date
     self.timezone = timezone
 
   def __eq__(self, other):
@@ -14,14 +14,14 @@ class Calendar:
   def getid(self):
     return self.id
 
-  def getname(self):
-    return self.name
+  def getstart_date(self):
+    return self.start_date
 
-  def geturl(self):
-    return self.url
+  def getend_date(self):
+    return self.end_date
 
   def gettimezone(self):
     return self.timezone
 
   def getgtfsvalues(self):
-    return [self.id, self.name, self.url, self.timezone]
+    return [self.id, self.start_date, self.end_date, self.timezone]

@@ -8,7 +8,7 @@ from extractor.CalendarExtraction import CalendarExtraction
 
 # StopsDownload().download()
 # AgencyExtraction().extract()
-# RoutesExtraction().extract()
+RoutesExtraction().extract()
 # TripsExtraction().extract()
 # StopTimesExtraction().extract()
-CalendarExtraction().extract()
+# CalendarExtraction().extract()

@@ -19,8 +19,8 @@ class StopTimesExtraction:
   def extract(self):
     print ("Extracting stop times from input directory")
     with open('output/stop_times.txt', 'w') as csvfile:
-      self.csvwriter = csv.writer(csvfile)
-      self.csvwriter.writerow(['trip_id', 'arrival_time', 'departure_time', 'stop_id', 'stop_sequence'])
+      self.csvwriter = csv.writer(csvfile, delimiter= '\t')
+      self.csvwriter.writerow(['TripID', 'ArrivalTime', 'DepartureTime', 'StopID', 'StopSequence'])
       self.__extractstoptimes()
     print ("- Done")
 

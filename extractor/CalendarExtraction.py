@@ -37,7 +37,7 @@ class CalendarExtraction:
 
   def __process(self, file):
     for calendar in self.__getdaysofweek(file):
-      self.calendars.add(self.__convertcalendars(calendar))
+      self.calendars.add(self.__convertcalendars(Calendar))
 
   def __getdaysofweek(self, file):
     root = et.parse('input/' + file).getroot()
@@ -46,11 +46,12 @@ class CalendarExtraction:
   def __convertcalendars(self, calendars):
     service_id = calendars.attrib['id']
     start_date = calendars.find('txc:StartDate', self.TXC_NAMESPACES).text
-    end_date = calendars.find('txc:EndDate', self.TXC_NAMESPACES).text
-    return Calendar(service_id, start_date, end_date)
+    end_date = calendars.findtext('txc:EndDate', self.TXC_NAMESPACES).text
+    timezone = calendars.findtext('txc:EndDate', self.TXC_NAMESPACES).text
+    return Calendar(service_id, start_date, end_date, timezone)
 
   def __writegtfscalendars(self):
-    print ("- Writing calendars.txt")
+    print ("- Writing calendar.txt")
     with open('output/calendar.txt', 'w') as csvfile:
       csvwriter = csv.writer(csvfile, delimiter= ' ')
       csvwriter.writerow(['service_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'start_date', 'end_date'])

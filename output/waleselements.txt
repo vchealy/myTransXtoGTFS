@@ -1,0 +1,24 @@
+route_id
+Routes
+	Route attrib id=""
+
+agency_id
+Operators
+	Operator attrib id="" = Agency_id
+	NationalOperatorCode- AgencyCode
+	OperatorCode - OperatorShortName
+	OperatorShortName  - OperatorFullName - agency_name
+
+route_short_name
+should be a number
+
+route_long_name
+no data
+
+route_desc
+Routes
+	Description text
+
+route_type
+
+route_url

@@ -43,11 +43,11 @@ class RoutesExtraction:
 
   def __convertserviceandRoutetoroute(self, service, Route):
     routeid = Route.attrib['id']
+    agencyid = service.find('txc:RegisteredOperatorRef', self.TXC_NAMESPACES).text
     routename = Route.find('txc:Description', self.TXC_NAMESPACES).text  #Original RouteName
     txcmode = service.find('txc:Location', self.TXC_NAMESPACES)           # Original Mode
     txcmode = str(txcmode)
     routetype = txcmodetogtfstype(txcmode)
-    agencyid = service.find('txc:RegisteredOperatorRef', self.TXC_NAMESPACES).text
     return Route(routeid, agencyid, routename, routetype)
 
   def __getservices(self, file):
@@ -57,7 +57,7 @@ class RoutesExtraction:
   def __writegtfsroutes(self):
     print ("- Writing routes.txt")
     with open(bytes('output/routes.txt', 'utf-8'), 'w') as csvfile:
-      csvwriter = csv.writer(csvfile)
-      csvwriter.writerow(['route_id', 'agency_id', 'route_short_name', 'route_long_name', 'route_type'])
+      csvwriter = csv.writer(csvfile, delimiter= '\t')
+      csvwriter.writerow(['RouteID', 'AgencyID', 'RouteShortName', 'RouteLongName', 'RouteType'])
       for route in self.routes:
         csvwriter.writerow(route.getgtfsvalues())
