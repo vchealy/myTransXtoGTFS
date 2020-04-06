@@ -1,2 +1,0 @@
-agency_id	agency_name	agency_timezone	agency_URL
-HOG	Peter Hogg	Europe/London	https://www.google.com/#q=Peter Hogg

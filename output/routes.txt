@@ -1,1 +1,0 @@
-RouteID	AgencyID	RouteShortName	RouteLongName	RouteType

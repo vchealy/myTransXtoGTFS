@@ -1,5 +1,0 @@
-Operators
-	Operator
-		OperatorCode
-		OperatorShortName
-		OperatorNameOnLicense
